@@ -43,6 +43,31 @@ We first run baseline test
 For that we will need Simulink Test Toolbox 
 
 
+Right now, you verified the requirement by manually looking at a graph. In the automotive industry, you need this to be an automated pass/fail test so you can run it hundreds of times instantly. We will do this using Simulink Test.
+
+Action Items:
+
+Open Simulink Test: In your Simulink model window, go to the Apps tab at the top and click on Simulink Test.
+
+Open the Test Manager: A new "Tests" tab will appear in your toolstrip. Click Simulink Test Manager (it usually has a clipboard icon).
+
+Create a New Test File: In the Test Manager, click the New dropdown at the top left and select Test File. Save it in your project folder (e.g., Climate_MIL_Tests.mldatx).
+
+Create a Baseline Test: Inside the new file, you will see a default test case.
+
+Select the test case in the left pane.
+
+In the right pane under System Under Test, click the "Use current model" button to link your climate control model.
+
+Under the Baseline Criteria section, you can actually capture the exact successful run you just did! Click Capture to save the current outputs as your "Golden" baseline.
+
+From now on, anytime you change the code or run it on the Arm processor, Simulink Test will automatically compare the new results to this golden baseline to make sure it still passes.
+
+Step 4: Prepare the Controller for Code Generation
+
+To ensure the controller is compatible with C code generation, we will use the Code Generation Advisor
+
+
 
 
 

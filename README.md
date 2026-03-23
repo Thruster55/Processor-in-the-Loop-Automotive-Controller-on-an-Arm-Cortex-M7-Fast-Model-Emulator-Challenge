@@ -67,15 +67,48 @@ Step 4: Prepare the Controller for Code Generation
 
 To ensure the controller is compatible with C code generation, we will use the Code Generation Advisor
 
+Action Items:
+
+Open Embedded Coder: Go back to your main sldemo_auto_climatecontrol Simulink window. Click on the Apps tab at the top and select Embedded Coder. A new C Code tab will appear in your toolstrip.
+
+Select the Target Subsystem: Click once on your Stateflow Controller block so it is highlighted. This tells Simulink we are only focusing on this specific component.
+
+Open the Advisor: In the C Code tab, look for the Check button (it might be a dropdown) and select Code Generation Advisor.
+
+Choose Your Objectives: The Advisor will open in a new window. It will ask you to select your objectives (e.g., Execution efficiency, ROM efficiency, Traceability, or Safety Precaution). For this project, you can select Execution efficiency and click OK.
+
+Run the Checks: In the left pane, you will see a folder tree of checks. Right-click the top folder (or click the Run Selected Checks button at the top). Simulink will now scan your controller logic to see if there are any unsupported blocks, weird data types, or inefficiencies that would make bad C code.
+
+Review the Results: Look for any red "X" marks or yellow warning triangles.
 
 
+<img width="1194" height="668" alt="image" src="https://github.com/user-attachments/assets/f87acec3-71c7-4796-9f44-59822563643e" />
 
 
+<img width="1193" height="665" alt="image" src="https://github.com/user-attachments/assets/c053d879-fea5-434a-bb1d-026bc7d492f5" />
 
 
+All checks passed and resolved step by step . 
 
 
+Step 5: Generate C Code for the Controller Subsystem
 
+Because we only want to generate code for the "brain" and leave the physical car environment as a simulation, we have to specifically command Simulink to build only that subsystem.
+
+Action Items:
+
+Select the Block: Go back to your main Simulink model diagram. Right-click directly on your Stateflow Controller block.
+
+Build the Subsystem: In the right-click menu, navigate down to C/C++ Code and select Build This Subsystem.
+**
+
+Confirm the Build: A small window ("Build Subsystem") might pop up asking about tunable parameters. You don't need to change anything here—just click the Build button at the bottom of that window.
+
+Wait for the Magic: MATLAB will now churn for a few moments. It is reading your logic, translating it to C code optimized for the Arm Cortex-M7, and compiling it. You can watch the progress in the Diagnostic Viewer at the bottom of your screen.
+
+View the Report: Once it finishes, a Code Generation Report should automatically pop up in a new window.
+
+Step 6: Run Processor-in-the-Loop (PIL) Tests
 
 
 

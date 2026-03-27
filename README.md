@@ -63,6 +63,44 @@ Under the Baseline Criteria section, you can actually capture the exact successf
 
 From now on, anytime you change the code or run it on the Arm processor, Simulink Test will automatically compare the new results to this golden baseline to make sure it still passes.
 
+Also adding the Custom criteria block for other requirements 
+
+```matlab
+% 1. Extract logged data from the simulation output dataset
+% 'sltest_simout' is a built-in variable containing all test results
+logs = sltest_simout.logsout;
+
+% Retrieve our specific logged signals
+T_cab = logs.get('Cabin temperature').Values.Data;
+T_set = logs.get('User Setpoint in Celsius').Values.Data;
+ac_cmd = logs.get('ACAct').Values.Data;
+heater_cmd = logs.get('HeaterAct').Values.Data;
+blower_cmd = logs.get('BlowerOut').Values.Data;
+
+% 2. Calculate the absolute temperature difference for every time step
+temp_diff = abs(T_cab - T_set);
+
+% Find the indices of all time steps where we are inside the 0.5 C deadband
+deadband_indices = find(temp_diff <= 0.5);
+
+% 3. Verify R2: AC and Heater must be OFF (0) in the deadband
+if ~isempty(deadband_indices)
+    % Check if ALL values at these specific times are exactly 0
+    r2_pass = all(ac_cmd(deadband_indices) == 0) && all(heater_cmd(deadband_indices) == 0);
+    
+    % The verifyTrue function tells Simulink Test to pass or fail the test
+    verifyTrue(testCase, r2_pass, 'R2 Failed: Heater or AC remained on inside the deadband.');
+else
+    % If the simulation never reaches the deadband, flag it as incomplete
+    verifyFail(testCase, 'R2 Inconclusive: The cabin temperature never reached the deadband.');
+end
+
+% 4. Verify R3: Blower must power down (0) in the deadband
+if ~isempty(deadband_indices)
+    r3_pass = all(blower_cmd(deadband_indices) == 0);
+    verifyTrue(testCase, r3_pass, 'R3 Failed: Blower fan remained on inside the deadband.');
+end
+```
 Step 4: Prepare the Controller for Code Generation
 
 To ensure the controller is compatible with C code generation, we will use the Code Generation Advisor

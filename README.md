@@ -17,7 +17,7 @@ Modern automotive systems, such as adaptive cruise control and electric powertra
 - Generate optimized C-code targeted for the Arm Cortex-M7 architecture.
 - Verify the embedded code via Processor-in-the-Loop (PIL) simulation on a virtual emulator.
 - Generate a comprehensive Verification Pack to prove requirement compliance.
-- 
+  
 
  ## **🛠️ Step-by-Step Workflow**
 

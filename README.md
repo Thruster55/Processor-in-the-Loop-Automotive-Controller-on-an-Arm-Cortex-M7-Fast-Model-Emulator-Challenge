@@ -4,19 +4,23 @@
 [![MATLAB Compatibility](https://img.shields.io/badge/MATLAB-R2025b-blue.svg)](https://www.mathworks.com/products/matlab.html)
 [![Status](https://img.shields.io/badge/Status-Completed-success.svg)]()
 
-📝 Project Motivation
+ ## **📝 Project Motivation**
 
 Modern automotive systems, such as adaptive cruise control and electric powertrains, rely on embedded code that must execute deterministically on resource-constrained hardware. Processor-in-the-Loop (PIL) testing allows engineers to run automatically generated C-code on a virtual replica of the target processor while the vehicle physics stay in simulation. This process exposes numerical differences and timing issues early in the development cycle, fulfilling safety-critical standards like ISO 26262.
 
-🎯 Project Objectives
+
+## **🎯 Project Objectives**
+
 
 - Define formal software requirements using the Requirements Toolbox™.
 - Design and validate a climate control system using Simulink® and Stateflow®.
 - Generate optimized C-code targeted for the Arm Cortex-M7 architecture.
 - Verify the embedded code via Processor-in-the-Loop (PIL) simulation on a virtual emulator.
 - Generate a comprehensive Verification Pack to prove requirement compliance.
+- 
 
-🛠️ Step-by-Step Workflow
+ ## **🛠️ Step-by-Step Workflow**
+
 
 1. Selection of Application and Base Model
 The project utilizes the sldemo_auto_climatecontrol example, focusing on the controller subsystem responsible for maintaining cabin comfort.
@@ -28,7 +32,8 @@ The project utilizes the sldemo_auto_climatecontrol example, focusing on the con
 </p>
 
 
-2. Requirement Engineering
+ ## **2. Requirement Engineering**
+ 
    
 Using the Requirements Toolbox, four high-level requirements were defined to guide the design and verification process:
 
@@ -44,12 +49,12 @@ Using the Requirements Toolbox, four high-level requirements were defined to gui
 </p>
 
 
-3. Design and Model-in-the-Loop (MIL) Testing
+ ## **3. Design and Model-in-the-Loop (MIL) Testing**
 
 
 The Stateflow controller was modified to include a 0.5 °C deadband logic to satisfy R2. Initial logic verification was performed in a "Normal" simulation mode to ensure the car physics responded correctly to user setpoints.
 
-4. Preparation for Code Generation
+ ## **4. Preparation for Code Generation**
 
 
 The controller was isolated into an atomic subsystem to prepare for Embedded Coder®.
@@ -64,13 +69,17 @@ The controller was isolated into an atomic subsystem to prepare for Embedded Cod
 </p>
 
 
-5. PIL Verification and Troubleshooting
+ ## **5. PIL Verification and Troubleshooting**
+ 
 
 This stage involved compiling the controller into C-code and running it on the Arm Cortex-M7 Fast Model Emulator.
 
+
 Numerical Equivalency Challenges
 
+
 During verification, a microscopic difference of $3.98 \times 10^{-13}$ was detected between the PC (x86) math and the Arm processor math. To resolve this, an Absolute Tolerance of $1 \times 10^{-4}$ was applied to the Baseline Criteria.
+
 
 
 <p align="center">
@@ -82,28 +91,38 @@ During verification, a microscopic difference of $3.98 \times 10^{-13}$ was dete
 
 Simulation Optimization
 
+
 To decrease simulation time from half a day to under a minute, the following optimizations were made:
+
 
 - Setpoint Adjustment: User setpoint was changed from 9 °C to 17 °C to reach the target faster.
 
 - Stop Time: Reduced from 1000s to 20s to focus only on the initial cool-down and deadband entry.
 
-<p align="center">
+
+
+- <p align="center">
   <img width="1432" height="848" alt="Simulation Setpoint" src="https://github.com/user-attachments/assets/7924d0af-499d-42a7-a1ce-b534e8e87333" />
   <img width="567" height="565" alt="Stop Time Setting" src="https://github.com/user-attachments/assets/09b51db7-8af2-4228-90f2-8fa8676d0cdc" />
   <br>
   <em>Screenshot of the yellow Setpoint block showing "17" and the Stop Time set to 20</em>
 </p>
 
-6. Final Results and Verification Pack
+
+  ## **6. Final Results and Verification Pack**
+  
 
 The final test run achieved a 100% Pass rating. The generated C-code proved to be mathematically equivalent to the model-level design, and the baseline comparison confirmed the controller's stability on the target architecture.
 
-📈 Conclusion
+
+   ## **📈 Conclusion**
+   
 
 This project successfully demonstrates the Model-Based Design (MBD) "V-Model" workflow. By identifying and resolving hardware-specific numerical variances and configuration hurdles, we validated that the automatically generated automotive code is ready for deployment on high-performance Arm-based vehicle microcontrollers.
 
-📁 Repository Contents
+
+ ## **📁 Repository Contents**
+ 
 
 model/: The optimized Simulink model file.
 
